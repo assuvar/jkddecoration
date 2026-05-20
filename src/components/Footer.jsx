@@ -41,8 +41,13 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto flex flex-col items-center relative z-10 select-none">
         
-        {/* Brand Name with Gold Glow */}
+        {/* Brand Logo with Gold Glow */}
         <a href="#home" className="flex flex-col items-center group mb-10">
+          <img 
+            src="/assets/logo.png" 
+            alt="JK Orchid Logo" 
+            className="h-20 w-auto object-contain mb-3 transition-transform duration-300 group-hover:scale-105" 
+          />
           <span className="font-cinzel text-2xl font-bold tracking-[0.2em] text-white group-hover:text-gold group-hover:gold-text-glow transition-all duration-300">
             JK ORCHID
           </span>

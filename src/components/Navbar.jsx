@@ -54,13 +54,20 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         
         {/* Brand Logo & Name */}
-        <a href="#home" className="flex flex-col group select-none">
-          <span className="font-cinzel text-xl sm:text-2xl font-bold tracking-widest text-white group-hover:text-gold hover:gold-text-glow transition-all duration-300">
-            JK ORCHID
-          </span>
-          <span className="font-cinzel text-[9px] sm:text-[10px] tracking-[0.35em] text-gold uppercase mt-0.5 group-hover:gold-text-glow transition-all">
-            Events
-          </span>
+        <a href="#home" className="flex items-center space-x-3 group select-none">
+          <img 
+            src="/assets/logo.png" 
+            alt="JK Orchid Logo" 
+            className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+          />
+          <div className="flex flex-col">
+            <span className="font-cinzel text-base sm:text-lg font-bold tracking-widest text-white group-hover:text-gold hover:gold-text-glow transition-all duration-300">
+              JK ORCHID
+            </span>
+            <span className="font-cinzel text-[8px] sm:text-[9px] tracking-[0.3em] text-gold uppercase mt-0.5 group-hover:gold-text-glow transition-all">
+              Events
+            </span>
+          </div>
         </a>
 
         {/* Desktop Menu */}
