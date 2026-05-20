@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold: #D4AF37;
+  --color-gold-dark: #AA820A;
+  --color-gold-light: #F3E5AB;
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+
+  --font-serif: "Cinzel", "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-15px) scale(1.05); }
+  }
+}
+
+@utility gold-text-glow {
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+}
+
+@utility gold-text-glow-strong {
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.8), 0 0 20px rgba(212, 175, 55, 0.45);
+}
+
+@utility gold-border-glow {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+@utility gold-border-glow-strong {
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.45), inset 0 0 15px rgba(212, 175, 55, 0.15);
+}
+
+@utility gold-border-glow-hover {
+  &:hover {
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+    border-color: #D4AF37;
+  }
+}
+
+@utility glass-panel {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+@utility masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+}
+
+@utility shine-sweep {
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: skewX(-20deg);
+  }
+  &:hover::after {
+    left: 150%;
+    transition: all 0.6s ease-in-out;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: #000000;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    color: #FFFFFF;
+    background-color: #000000;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-cinzel {
+    font-family: 'Cinzel', serif;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #AA820A;
+}
+
+/* Sparkle Floating Animation */
+@keyframes float-sparkle {
+  0% {
+    transform: translateY(100vh) translateX(0) scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(50px) scale(1);
+    opacity: 0;
+  }
+}
+
+.sparkle {
+  position: absolute;
+  background: radial-gradient(circle, #D4AF37 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: float-sparkle infinite linear;
+}
