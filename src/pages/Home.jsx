@@ -30,8 +30,8 @@ export default function Home() {
       {/* Structured Sections */}
       <Navbar />
       <Hero />
-      <Services />
       <Gallery />
+      <Services />
       <WhyChooseUs />
       <Testimonials />
       <WhatsAppCTA />

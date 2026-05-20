@@ -3,49 +3,26 @@ import { motion } from 'framer-motion';
 import { MessageSquare, ChevronDown } from 'lucide-react';
 import Sparkles from './Sparkles';
 
-const collageCards = [
-  {
-    src: '/assets/gallery_wedding.png',
-    alt: 'Wedding Decoration',
-    className: 'left-[4%] top-[14%] w-[160px] md:w-[190px] h-[220px] md:h-[260px]',
-    yOffset: [-12, 12],
-    duration: 6,
-    delay: 0
-  },
-  {
-    src: '/assets/gallery_reception.png',
-    alt: 'Reception Decor',
-    className: 'left-[6%] bottom-[12%] w-[170px] md:w-[200px] h-[230px] md:h-[270px]',
-    yOffset: [10, -10],
-    duration: 7,
-    delay: 0.5
-  },
-  {
-    src: '/assets/hero_1.png',
-    alt: 'Floral Detailing',
-    className: 'left-[26%] bottom-[6%] w-[130px] md:w-[150px] h-[170px] md:h-[200px]',
-    yOffset: [-8, 8],
-    duration: 5,
-    delay: 1,
-    isUnderlay: true
-  },
-  {
-    src: '/assets/gallery_birthday.png',
-    alt: 'Theme Decoration',
-    className: 'right-[5%] top-[14%] w-[160px] md:w-[195px] h-[210px] md:h-[265px]',
-    yOffset: [12, -12],
-    duration: 6.5,
-    delay: 0.2
-  },
-  {
-    src: '/assets/gallery_babyshower.png',
-    alt: 'Baby Shower Decor',
-    className: 'right-[6%] bottom-[14%] w-[200px] md:w-[240px] h-[135px] md:h-[165px]',
-    yOffset: [-10, 10],
-    duration: 7.5,
-    delay: 0.8
-  }
+import { galleryData } from '../data/gallery';
+
+const collageSlots = [
+  { className: 'left-[4%] top-[14%] w-[160px] md:w-[190px] h-[220px] md:h-[260px]', yOffset: [-12, 12], duration: 6, delay: 0 },
+  { className: 'left-[6%] bottom-[12%] w-[170px] md:w-[200px] h-[230px] md:h-[270px]', yOffset: [10, -10], duration: 7, delay: 0.5 },
+  { className: 'left-[26%] bottom-[6%] w-[130px] md:w-[150px] h-[170px] md:h-[200px]', yOffset: [-8, 8], duration: 5, delay: 1, isUnderlay: true },
+  { className: 'right-[5%] top-[14%] w-[160px] md:w-[195px] h-[210px] md:h-[265px]', yOffset: [12, -12], duration: 6.5, delay: 0.2 },
+  { className: 'right-[6%] bottom-[14%] w-[200px] md:w-[240px] h-[135px] md:h-[165px]', yOffset: [-10, 10], duration: 7.5, delay: 0.8 }
 ];
+
+// Pick dynamic images from the synced Drive folder (distributed indices)
+const selectedIndices = [200, 120, 240, 80, 40];
+const collageCards = collageSlots.map((slot, i) => {
+  const item = galleryData[selectedIndices[i]] || galleryData[i] || {};
+  return {
+    ...slot,
+    src: item.image || '/assets/hero_1.png',
+    alt: item.title || 'JK Orchid Event'
+  };
+});
 
 export default function Hero() {
   return (
@@ -129,28 +106,35 @@ export default function Hero() {
           Luxury decorations for weddings, receptions, birthdays, baby showers, and custom themed celebrations. Crafted with passion, styled to perfection.
         </motion.p>
 
-        {/* Action Button */}
+        {/* Action Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
-          className="flex flex-col items-center"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full"
         >
           <a
             href="https://wa.me/916381491400?text=Hi%20JK%20Orchid%20Events,%20I%20would%20like%20to%20book%20a%20decoration%20service."
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative flex items-center space-x-3 bg-gold text-black px-10 py-4.5 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(212,175,55,0.25)] hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] hover:bg-gold-light"
+            className="group relative flex items-center justify-center space-x-3 bg-gold text-black px-8 py-4 sm:px-10 sm:py-4.5 rounded-full text-[10px] sm:text-xs uppercase tracking-[0.2em] font-bold transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(212,175,55,0.25)] hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] hover:bg-gold-light w-full sm:w-auto"
           >
-            <MessageSquare className="w-4.5 h-4.5 fill-current text-black group-hover:scale-110 transition-transform duration-300" />
+            <MessageSquare className="w-4 h-4 sm:w-4.5 sm:h-4.5 fill-current text-black group-hover:scale-110 transition-transform duration-300" />
             <span>Book via WhatsApp</span>
+          </a>
+          
+          <a
+            href="#gallery"
+            className="group relative flex items-center justify-center space-x-3 bg-transparent border border-gold/40 text-gold px-8 py-4 sm:px-10 sm:py-4.5 rounded-full text-[10px] sm:text-xs uppercase tracking-[0.2em] font-bold transition-all duration-300 hover:scale-105 hover:border-gold hover:bg-gold/10 w-full sm:w-auto"
+          >
+            <span>Explore Our Designs</span>
           </a>
         </motion.div>
       </div>
 
       {/* Down Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center pointer-events-auto">
-        <a href="#services" className="text-white/40 hover:text-gold transition-colors duration-300 flex flex-col items-center gap-1 group">
+        <a href="#gallery" className="text-white/40 hover:text-gold transition-colors duration-300 flex flex-col items-center gap-1 group">
           <span className="text-[9px] uppercase tracking-[0.35em] font-light">Explore</span>
           <ChevronDown className="w-4.5 h-4.5 animate-bounce group-hover:translate-y-0.5 transition-transform" />
         </a>
