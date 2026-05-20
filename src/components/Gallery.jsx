@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { galleryData } from '../data/gallery';
 import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -384,51 +384,69 @@ const categoryConfigs = {
     icon: AllEventsSVG,
     accentPattern: "geometric"
   },
-  'Birthdays': {
-    title: "Birthday Celebrations",
-    subtitle: "Colorful balloon decorations for memorable birthdays.",
-    icon: BirthdaySVG,
-    accentPattern: "confetti"
-  },
-  'Baby Shower': {
-    title: "Baby Shower Magic",
-    subtitle: "Warm and adorable decorations for special arrivals.",
-    icon: BabyShowerSVG,
-    accentPattern: "footprints"
-  },
-  'Weddings': {
-    title: "Dream Wedding Decor",
-    subtitle: "Elegant floral setups for unforgettable wedding celebrations.",
+  'Mugurtham (Weddings)': {
+    title: "Mugurtham Decorations",
+    subtitle: "Traditional floral decors and stage setups for auspicious weddings.",
     icon: WeddingsSVG,
     accentPattern: "mandap"
   },
   'Receptions': {
     title: "Grand Reception Setups",
-    subtitle: "Luxury décor that leaves a lasting impression.",
+    subtitle: "Luxury décor panels, stage layouts, and gorgeous lighting setups.",
     icon: ReceptionsSVG,
     accentPattern: "chandeliers"
   },
   'Engagements': {
     title: "Engagement Decor",
-    subtitle: "Beautiful settings for your special promise.",
+    subtitle: "Beautiful settings and floral backdrops for your special promise.",
     icon: EngagementsSVG,
     accentPattern: "rings"
   },
-  'Anniversaries': {
-    title: "Anniversary Celebrations",
-    subtitle: "Romantic setups to celebrate love.",
+  'Birthdays': {
+    title: "Birthday Celebrations",
+    subtitle: "Organic balloon arches, marquees, and fun birthday setups.",
+    icon: BirthdaySVG,
+    accentPattern: "confetti"
+  },
+  'Baby Shower': {
+    title: "Baby Shower Magic",
+    subtitle: "Adorable moon, stroller, and floral canopies for special arrivals.",
+    icon: BabyShowerSVG,
+    accentPattern: "footprints"
+  },
+  'Naming Ceremony': {
+    title: "Naming Ceremony Setups",
+    subtitle: "Sweet, elegant designs and setups to welcome your little ones.",
+    icon: BabyShowerSVG,
+    accentPattern: "footprints"
+  },
+  'Entrance': {
+    title: "Grand Entrance Decor",
+    subtitle: "Welcoming archways, floral gates, and entry pathway styling.",
+    icon: AllEventsSVG,
+    accentPattern: "geometric"
+  },
+  'Haldi & Mehendi': {
+    title: "Haldi & Mehendi decors",
+    subtitle: "Vibrant yellow themes and traditional decor elements.",
     icon: AnniversariesSVG,
     accentPattern: "hearts"
   },
   'Surprise Parties': {
     title: "Surprise Party Decor",
-    subtitle: "Creative designs for unforgettable surprises.",
+    subtitle: "Glowing fairy lights, balloons, and customized canopy surprises.",
     icon: SurprisePartiesSVG,
     accentPattern: "fireworks"
   },
-  'Corporate Events': {
-    title: "Corporate Event Styling",
-    subtitle: "Professional event décor with premium execution.",
+  'Puberty Ceremony': {
+    title: "Puberty Decor",
+    subtitle: "Traditional flower setups and stage decorations for milestone moments.",
+    icon: AnniversariesSVG,
+    accentPattern: "hearts"
+  },
+  'Palahkuu': {
+    title: "Palahkuu Styling",
+    subtitle: "Elegant custom setups and traditional decorations for Palahkuu.",
     icon: CorporateEventsSVG,
     accentPattern: "geometric"
   }
@@ -436,14 +454,17 @@ const categoryConfigs = {
 
 const filterMap = {
   'All Events': 'All',
-  'Birthdays': 'Birthdays',
-  'Baby Shower': 'Baby Shower',
-  'Weddings': 'Wedding',
+  'Mugurtham (Weddings)': 'Mugurtham',
   'Receptions': 'Reception',
   'Engagements': 'Engagement',
-  'Anniversaries': 'Anniversary',
+  'Birthdays': 'Birthdays',
+  'Baby Shower': 'Baby Shower',
+  'Naming Ceremony': 'Naming Ceremony',
+  'Entrance': 'Entrance',
+  'Haldi & Mehendi': 'Haldi',
   'Surprise Parties': 'Surprise Parties',
-  'Corporate Events': 'Corporate'
+  'Puberty Ceremony': 'Puberty',
+  'Palahkuu': 'Palahkuu'
 };
 
 const categoriesList = Object.keys(categoryConfigs);
@@ -457,6 +478,11 @@ export default function Gallery() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isBannerHovered, setIsBannerHovered] = useState(false);
+  const [itemsToShow, setItemsToShow] = useState(12);
+
+  useEffect(() => {
+    setItemsToShow(12);
+  }, [activeCategory]);
 
   const activeFilterValue = filterMap[activeCategory];
 
@@ -464,8 +490,11 @@ export default function Gallery() {
     ? galleryData
     : galleryData.filter(item => item.category === activeFilterValue);
 
-  const openLightbox = (index) => {
-    setLightboxIndex(index);
+  const paginatedItems = filteredItems.slice(0, itemsToShow);
+
+  const openLightbox = (item) => {
+    const fullIndex = filteredItems.findIndex(i => i.id === item.id);
+    setLightboxIndex(fullIndex);
   };
 
   const closeLightbox = () => {
@@ -682,13 +711,13 @@ export default function Gallery() {
             className="columns-1 sm:columns-2 lg:columns-3 gap-6 [column-fill:_balance] w-full"
           >
             <AnimatePresence mode="popLayout">
-              {filteredItems.map((item, index) => (
+              {paginatedItems.map((item, index) => (
                 <motion.div
                   layout
                   variants={itemVariants}
                   key={item.id}
                   className="masonry-item break-inside-avoid relative overflow-hidden group cursor-pointer border border-gold/10 bg-black/40 hover:border-gold/40 transition-all duration-300"
-                  onClick={() => openLightbox(index)}
+                  onClick={() => openLightbox(item)}
                 >
                   {/* Image */}
                   <img
@@ -721,6 +750,18 @@ export default function Gallery() {
               ))}
             </AnimatePresence>
           </motion.div>
+          
+          {/* Pagination Load More Button */}
+          {filteredItems.length > itemsToShow && (
+            <div className="flex justify-center mt-16">
+              <button
+                onClick={() => setItemsToShow(prev => prev + 12)}
+                className="border border-gold px-8 py-4 text-xs uppercase tracking-widest text-gold hover:bg-gold hover:text-black transition-all duration-300 font-bold shadow-[0_0_12px_rgba(212,175,55,0.15)] hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] cursor-pointer"
+              >
+                View More Masterpieces
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Full-screen Lightbox Popup */}
